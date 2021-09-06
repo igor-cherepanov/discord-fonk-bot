@@ -2,16 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client as HttpClient;
-use NotificationChannels\Discord\Discord;
-use NotificationChannels\Discord\DiscordMessage;
+
+use Discord\Discord;
 
 class HomeController extends Controller
 {
 
-    public function index(){
-        $guzzleClient = new HttpClient();
-        DiscordMessage::create('test');
+    /**
+     * @throws \Discord\Exceptions\IntentException
+     */
+    public function index()
+    {
+        $discord = new Discord([
+            'token' => env('DISCORD_TOKEN'),
+        ]);
+
+        $discord->on('ready', function ($discord) {
+            echo "Bot is ready!", PHP_EOL;
+
+            // Listen for messages.
+            $discord->on('message', function ($message, $discord) {
+                echo "{$message->author->username}: {$message->content}", PHP_EOL;
+            });
+        });
+
     }
 
 }
