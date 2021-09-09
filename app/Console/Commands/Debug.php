@@ -50,5 +50,7 @@ class Debug extends Command
                 echo "{$message->author->username}: {$message->content}", PHP_EOL;
             });
         });
+
+        $discord->run();
     }
 }
