@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\TrueSite;
 use Discord\Discord;
 
 class HomeController extends Controller
@@ -13,18 +14,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $discord = new Discord([
-            'token' => env('DISCORD_TOKEN'),
-        ]);
+        TrueSite::getStat(TrueSite::ROUTE_PVP, 'Скеил');
 
-        $discord->on('ready', function ($discord) {
-            echo "Bot is ready!", PHP_EOL;
-
-            // Listen for messages.
-            $discord->on('message', function ($message, $discord) {
-                echo "{$message->author->username}: {$message->content}", PHP_EOL;
-            });
-        });
 
     }
 
